@@ -36,5 +36,6 @@ pipelines:
                 arguments:
                 - -c
                 - docker build -t sergeyfilyanin/guacd:$GO_PIPELINE_LABEL .
+                - docker push sergeyfilyanin/guacd:$GO_PIPELINE_LABEL
                 command: /bin/bash
                 run_if: passed
