@@ -1,5 +1,6 @@
 FROM guacamole/guacd
-
+USER root
 RUN apt-get update && apt-get install -y \
-  vpnc \
-  openssh-client
+  nano \
+  procps
+USER guacd
