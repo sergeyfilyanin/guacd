@@ -30,12 +30,12 @@ pipelines:
                 configuration:
                   options:
                     Image: sergeyfilyanin/guacd
-                    Tag: ${GO_PIPELINE_LABEL}
+                    Tag: dev_${GO_PIPELINE_LABEL}
             tasks:
             - exec:
                 arguments:
                 - -c
-                - docker build -t sergeyfilyanin/guacd:dev$GO_PIPELINE_LABEL .
-                - docker push sergeyfilyanin/guacd:dev$GO_PIPELINE_LABEL
+                - docker build -t sergeyfilyanin/guacd:dev_$GO_PIPELINE_LABEL .
+                - docker push sergeyfilyanin/guacd:dev_$GO_PIPELINE_LABEL
                 command: /bin/bash
                 run_if: passed
