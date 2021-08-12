@@ -1,41 +1,39 @@
-format_version: 3
+format_version: 10
 pipelines:
-  build_and_publish_image:
-    group: guacd
+  build-guacd:
+    group: sample
     label_template: ${COUNT}
-    lock_behavior: unlockWhenFinished
-    display_order: 1
-    environment_variables:
+    lock_behavior: none
+    display_order: -1
     materials:
-      git:
-        git: https://github.com/SergeyFilyanin/guacd.git
-        shallow_clone: true
+      git-10126c1:
+        git: https://github.com/SergeyFilyanin/guacd
+        shallow_clone: false
         auto_update: true
         branch: master
     stages:
-    - build_and_publish_image:
+    - build-docker:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
         approval:
           type: success
+          allow_only_on_success: false
         jobs:
-          build_image:
+          build-docker-guacd:
             timeout: 0
-            elastic_profile_id: demo-app
-            artifacts:
-            - external:
-                id: guacd
-                store_id: dockerhub
-                configuration:
-                  options:
-                    Image: sergeyfilyanin/guacd
-                    Tag: dev_${GO_PIPELINE_LABEL}
             tasks:
             - exec:
                 arguments:
-                - -c
-                - docker build -t sergeyfilyanin/guacd:dev_$GO_PIPELINE_LABEL .
-                - docker push sergeyfilyanin/guacd:dev_$GO_PIPELINE_LABEL
-                command: /bin/bash
+                - build
+                - -t
+                - sergeyfilyanin/guacd:dev_$GO_PIPELINE_LABEL
+                - .
+                command: docker
+                run_if: passed
+            - exec:
+                arguments:
+                - push
+                - sergeyfilyanin/guacd:dev_$GO_PIPELINE_LABEL
+                command: docker
                 run_if: passed
