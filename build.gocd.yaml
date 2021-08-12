@@ -27,13 +27,13 @@ pipelines:
                 arguments:
                 - build
                 - -t
-                - sergeyfilyanin/guacd:dev_$GO_PIPELINE_LABEL
+                - sergeyfilyanin/guacd:devexample
                 - .
                 command: docker
                 run_if: passed
             - exec:
                 arguments:
                 - push
-                - sergeyfilyanin/guacd:dev_$GO_PIPELINE_LABEL
+                - sergeyfilyanin/guacd:devexample
                 command: docker
                 run_if: passed
